@@ -111,6 +111,31 @@ public class ArticleDao {
 			close();
 		}
 	}
+	public Article readArticle(String id) {
+		Article articles = null;
+		String sql = "select * from article where id ="+id;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				articles = new Article();
+				articles.setId(rs.getInt("id"));
+				articles.setTitle(rs.getString("title"));
+				articles.setRegDate(rs.getString("regDate"));
+				articles.setNickname(rs.getString("nickname"));
+				articles.setHit(rs.getInt("hit"));
+
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return articles;
+	}
 
 		
 

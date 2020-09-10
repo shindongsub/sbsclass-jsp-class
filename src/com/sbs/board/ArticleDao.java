@@ -1,35 +1,54 @@
 package com.sbs.board;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleDao {
+import org.apache.commons.dbcp2.BasicDataSource;
 
-	String url = "jdbc:mysql://localhost:3306/t1?serverTimezone=UTC";
-	String id = "root";
-	String pw = "";
-	
+public class ArticleDao {
 	Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
 	
 	Connection getConnection() {
 		Connection conn = null;
+		BasicDataSource bds = new BasicDataSource();
+		bds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		bds.setUrl("jdbc:mysql://localhost:3306/t1?serverTimezone=UTC");
+		bds.setUsername("root");
+		bds.setPassword("");
+		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(url, id, pw);
+			conn = bds.getConnection();
 			stmt = conn.createStatement();
-			
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}return conn;
-
+		}
+		return conn;
+		
 	}
+
+//	String url = "jdbc:mysql://localhost:3306/t1?serverTimezone=UTC";
+//	String id = "root";
+//	String pw = "";
+//	
+//	
+//	Connection getConnection() {
+//		Connection conn = null;
+//		try {
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			conn = DriverManager.getConnection(url, id, pw);
+//			stmt = conn.createStatement();
+//			
+//		} catch (ClassNotFoundException | SQLException e) {
+//			e.printStackTrace();
+//		}return conn;
+//
+//	}
 	void close(){
 		try {
 			if(conn != null) {

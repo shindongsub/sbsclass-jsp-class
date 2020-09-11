@@ -71,8 +71,49 @@ public class testServlet extends HttpServlet {
 			String id = request.getParameter("id");
 			Article article = dao.readArticle(id);
 			request.setAttribute("article", article);
+			
+			List<Reply> reply = dao.getRepliesById(id);
+			request.setAttribute("reply", reply);
+			
 			String url = ARTICLEPATH+"detailjsp"+EXTENTION;
 			forwarding(request, response, url);
+		}
+		else if(cmd.equals("reply")) {
+			String parentId = request.getParameter("parentId");
+			String body = request.getParameter("body");
+			String nickname = request.getParameter("nickname");
+			dao.addReply(parentId, body, nickname);
+			response.sendRedirect("test?cmd=read&id="+parentId);
+		}
+		else if(cmd.equals("addReply")) {
+			String id = request.getParameter("parentId");
+			Article article = dao.readArticle(id);
+			request.setAttribute("article", article);
+			
+			String url = ARTICLEPATH +"reply"+EXTENTION;
+			forwarding(request, response, url);
+		}
+		else if(cmd.equals("readReply")) {
+			String id = request.getParameter("id");
+			Reply reply = dao.readReply(id);
+			request.setAttribute("reply", reply);
+			
+			String url = ARTICLEPATH+"updateReply"+EXTENTION;
+			forwarding(request, response, url);
+		}
+		else if(cmd.equals("updateReply")) {
+			String id = request.getParameter("id");
+			String body = request.getParameter("body");
+			String writer = request.getParameter("writer");
+			dao.updateReply(id, body, writer);
+			
+			response.sendRedirect("test?cmd=list");
+			
+		}
+		else if(cmd.equals("deleteReply")) {
+			String id = request.getParameter("id");
+			dao.deleteReplyById(id);
+			response.sendRedirect("test?cmd=list");
 		}
 	}
 

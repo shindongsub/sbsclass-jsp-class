@@ -29,7 +29,9 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 작성자 : <% out.println(articles.get(i).getNickname());%><br>
 날짜    : <% out.println(articles.get(i).getRegDate());%><br>
 조회수 : <% out.println(articles.get(i).getHit());%><br>
+</div>
 <hr>
+<div>
 <%
 }
 %>

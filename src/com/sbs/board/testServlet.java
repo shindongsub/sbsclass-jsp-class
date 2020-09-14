@@ -64,9 +64,9 @@ public class testServlet extends HttpServlet {
 		else if(cmd.equals("updateArticle")) {
 			String id = request.getParameter("id");
 			Article article = dao.readArticle(id);
-			request.setAttribute("article", article);
+			request.setAttribute("article", article); 
 			
-			String url = ARTICLEPATH+"updateArticle"+EXTENTION;
+			String url = ARTICLEPATH+"updateArticle"+EXTENTION; 
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("delete")) {

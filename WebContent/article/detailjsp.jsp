@@ -16,8 +16,6 @@ List<Reply> reply = (List<Reply>)request.getAttribute("reply");
 %>
 
 <h1>게시물 상세보기</h1><br>
-선생님 질문있습니다! 리스트 전체보기에서는 정상적으로 보입니다. 하지만 상세보기 번호 클릭해서 들어가면 내용이 자꾸 null로 바뀝니다. 이유가 알고싶습니다.<br>
-댓글도 작성자가 null로 자꾸 바뀌어서 input을 writer도 입력할때 추가하였더니 정상적으로 나오더라구요.ㅜ.ㅜ<br>
 <div>
 번호 : <%= article.getId() %><br>
 제목 : <%= article.getTitle() %><br>

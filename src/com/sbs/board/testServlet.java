@@ -18,16 +18,23 @@ public class testServlet extends HttpServlet {
 	final String EXTENTION = ".jsp";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
+//		response.setCharacterEncoding("UTF-8"); //
+		String msg = (String)request.getAttribute("msg");
+//		System.out.println(msg);
+		
 		response.setContentType("text/html; charset=utf-8");
 
 		String cmd = request.getParameter("cmd");
 		PrintWriter pw = response.getWriter();
 		
+		
 		if(cmd.equals("list")) {
 			List<Article> articles = dao.getAllArticles();
 			//리퀘스트에 아티클스를 넣어놓은 상태.
 			request.setAttribute("articles", articles); //리퀘스트에 아티클스를 넣어놓은 상태.
+			
+			
+			
 			//forwording 해야되는데, 해주는게 리퀘스트 디스펙쳐 requestdispatcher
 //			RequestDispatcher dis = request.getRequestDispatcher("WEB-INF/listprint.jsp");
 //			dis.forward(request, response); 
@@ -63,8 +70,8 @@ public class testServlet extends HttpServlet {
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("delete")) {
-			String id = request.getParameter("id");
-			dao.deleteArticle(id);
+			String[] ids = request.getParameterValues("ckb");
+			dao.deleteArticle(ids);
 			response.sendRedirect("test?cmd=list");
 		}
 		else if(cmd.equals("read")) {

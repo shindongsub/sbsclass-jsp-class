@@ -117,12 +117,15 @@ public class ArticleDao {
 			close();
 		}
 	}
-	public void deleteArticle(String id) {
-		String sql = "delete from article where id = "+id;
+	public void deleteArticle(String[] ids) {
+		String[] del_ids = ids;
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
+			for (int i=0; i<ids.length;i++) {
+				String sql = "delete from article where id = "+Integer.parseInt(del_ids[i]);
+				stmt.executeUpdate(sql);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -140,6 +143,7 @@ public class ArticleDao {
 				articles = new Article();
 				articles.setId(rs.getInt("id"));
 				articles.setTitle(rs.getString("title"));
+				articles.setBody(rs.getString("body"));
 				articles.setRegDate(rs.getString("regDate"));
 				articles.setNickname(rs.getString("nickname"));
 				articles.setHit(rs.getInt("hit"));

@@ -12,29 +12,33 @@
 <body>
 <h1> ☆게시물 목록☆ </h1>
 번호를 누르시면 상세보기가 실행됩니다.<br>
-<a href="http://localhost:8090/test?cmd=addArticle">[게시물 추가]</a>
 <hr>
 <% 
 List<Article> articles = (List<Article>)request.getAttribute("articles");
 
 %>
 <%Article article = (Article)request.getAttribute("article"); %>
+
+
 <% for (int i = 0; i<articles.size(); i++){%>
 <div>
+<form name="cmd">
 <!-- 리스트의 번호를 클릭하면 cmd=read의 id번째 상세보기로 이동 -->
-<a href="http://localhost:8090/test?cmd=read&id=<%= articles.get(i).getId() %>"> 
-번호    : <% out.println(articles.get(i).getId());%></a><br>
-제목    : <% out.println(articles.get(i).getTitle());%><br>
-내용    : <% out.println(articles.get(i).getBody());%><br>
-작성자 : <% out.println(articles.get(i).getNickname());%><br>
-날짜    : <% out.println(articles.get(i).getRegDate());%><br>
-조회수 : <% out.println(articles.get(i).getHit());%><br>
-</div>
+<a href="http://localhost:8090/test?cmd=read&id=<%= articles.get(i).getId() %>">
+번호    : <%= articles.get(i).getId()%></a><br>
+제목    : <%= articles.get(i).getTitle() %><br>
+내용    : <%= articles.get(i).getBody()%><br>
+작성자 : <%= articles.get(i).getNickname()%><br>
+날짜    : <%= articles.get(i).getRegDate()%><br>
+조회수 : <%= articles.get(i).getHit()%><br>
+<input type = "checkbox" name="ckb" value="<%= articles.get(i).getId()%>"> 게시물삭제 <%//여기서 ckb값을 창에서 체크하여 delete로 보내준다 %>
 <hr>
-<div>
 <%
 }
 %>
+<input type="submit" name="cmd" value="delete"> <%// %>
+<a href="http://localhost:8090/test?cmd=addArticle">[게시물 추가]</a> <%//궁금합니다. 글씨로박에 안되나요 submit박스로 해서 링크 못다나요? %>
+</form>
 </div>
 
 </body>

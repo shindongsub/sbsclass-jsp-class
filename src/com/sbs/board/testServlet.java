@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,36 +13,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/test")
-public class testServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 	ArticleDao dao = new ArticleDao();
 	final String ARTICLEPATH = "article/";  //forwarding을 위해 변수로 만듬. final을 붙이면 수정못함.
 	final String EXTENTION = ".jsp";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		response.setCharacterEncoding("UTF-8"); //
 		String msg = (String)request.getAttribute("msg");
-//		System.out.println(msg);
-		
+//		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
-
+		
 		String cmd = request.getParameter("cmd");
 		PrintWriter pw = response.getWriter();
 		
+//		ServletContext application = request.getServletContext();
+//		String rst1 = (String)request.getAttribute("key");
+//		String rst2 = (String)application.getAttribute("key");
+//		if(rst1 == null) {
+//			System.out.println("값이 없습니다.");
+//		}else {
+//			System.out.println(rst1);
+//		}
+//		if(rst2 == null) {
+//			System.out.println("값이 없습니다.");
+//		}else{
+//			System.out.println(rst2);
+//		}
 		
 		if(cmd.equals("list")) {
 			List<Article> articles = dao.getAllArticles();
 			//리퀘스트에 아티클스를 넣어놓은 상태.
 			request.setAttribute("articles", articles); //리퀘스트에 아티클스를 넣어놓은 상태.
-			
-			
-			
+
 			//forwording 해야되는데, 해주는게 리퀘스트 디스펙쳐 requestdispatcher
 //			RequestDispatcher dis = request.getRequestDispatcher("WEB-INF/listprint.jsp");
 //			dis.forward(request, response); 
 			String url = ARTICLEPATH +"listprint"+EXTENTION;  //forwarding메서드를 만들어 간단하게 만들어놓은 상태
 			forwarding(request, response, url);
 		}
-		else if(cmd.equals("add")) {
+		if(cmd.equals("add")) {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
@@ -71,6 +81,10 @@ public class testServlet extends HttpServlet {
 		}
 		else if(cmd.equals("delete")) {
 			String[] ids = request.getParameterValues("ckb");
+
+			for (int i=0; i<ids.length; i++) {
+				System.out.println(ids[i]);
+			}
 			dao.deleteArticle(ids);
 			response.sendRedirect("test?cmd=list");
 		}
@@ -134,6 +148,8 @@ public class testServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 }

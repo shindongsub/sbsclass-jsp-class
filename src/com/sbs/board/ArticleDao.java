@@ -247,6 +247,36 @@ public class ArticleDao {
 			close();
 		}
 	}
+	public Member loginCheck(String id1, String pw1) {
+		Member member = null;
+		String sql = "select * from `member` where loginId = '"+id1+"' and loginPw = '"+pw1+"'";
+		System.out.println(sql);
+		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				int id = rs.getInt("id");
+				String loginId = rs.getString("loginId");
+				String loginPw = rs.getString("loginPw");
+				String nickname = rs.getString("nickname");
+				String regDate = rs.getString("regDate");
+				
+				member = new Member();
+				member.setId(id);
+				member.setLoginId(loginId);
+				member.setLoginPw(loginPw);
+				member.setNickname(nickname);
+				member.setRegDate(regDate);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return member;
+	}
 
 		
 

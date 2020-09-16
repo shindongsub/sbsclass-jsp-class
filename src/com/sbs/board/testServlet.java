@@ -26,7 +26,7 @@ public class TestServlet extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		PrintWriter pw = response.getWriter();
 		
-//		ServletContext application = request.getServletContext();
+		ServletContext application = request.getServletContext();
 //		String rst1 = (String)request.getAttribute("key");
 //		String rst2 = (String)application.getAttribute("key");
 //		if(rst1 == null) {
@@ -134,6 +134,29 @@ public class TestServlet extends HttpServlet {
 		else if(cmd.equals("deleteReply")) {
 			String id = request.getParameter("id");
 			dao.deleteReplyById(id);
+			response.sendRedirect("test?cmd=list");
+		}
+		else if(cmd.equals("login")) {
+			String url = ARTICLEPATH + "login" + EXTENTION;
+			forwarding(request, response, url);
+		}
+		else if(cmd.equals("dologin")) {
+			
+			String id1 = request.getParameter("id");
+			String pw1 = request.getParameter("pw");
+			Member member = dao.loginCheck(id1, pw1);
+			List<Article> articles = dao.getAllArticles();
+			request.setAttribute("articles", articles);
+			if(member != null) {
+				application.setAttribute("loginMember", member);
+				String url = ARTICLEPATH+"loginCheck"+EXTENTION;
+				forwarding(request, response, url);
+			}
+//			String url = ARTICLEPATH+"listprint"+EXTENTION;
+//			forwarding(request, response, url);
+		}
+		else if(cmd.equals("logout")) {
+			application.removeAttribute("loginMember");
 			response.sendRedirect("test?cmd=list");
 		}
 	}

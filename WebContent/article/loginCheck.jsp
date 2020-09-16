@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List"%>
+    pageEncoding="UTF-8"%>
 <%@ page import="com.sbs.board.Article"%>
+<%@ page import="java.util.List"%>
 <%@ page import="com.sbs.board.Member"%>
 <!DOCTYPE html>
 <html>
@@ -11,17 +11,11 @@
 </head>
 <body>
 	<h1>☆게시물 목록☆</h1>
-	<% Member loginMember = (Member)application.getAttribute("loginMember");
+<% Member loginMember = (Member)application.getAttribute("loginMember");
 	if (loginMember != null){ %>
 	안녕하세요. <%= loginMember.getNickname() %> 님! 반갑습니다.
 	<a href = "http://localhost:8090/test?cmd=logout"> [로그아웃] </a>
-	<%} else {%>
-	로그인 해주세요.
-	<%}%>
-	<a href="http://localhost:8090/test?cmd=login" >   [로그인]</a>
-	<br>
-	<hr>
-	번호를 누르시면 상세보기가 실행됩니다.
+<%}%>
 
 	<form action="test?cmd=delete" method="POST">
 		<%
@@ -44,19 +38,7 @@
 		%>
 		<input type="submit" value="삭제"/> <% //delete로 왜 안넘어가는지 모르겠습니다. %>
 		<a href="http://localhost:8090/test?cmd=addArticle" >   [게시물추가]</a>
-	</form>
 
+	</form>
 </body>
 </html>
-
-
-
-<!-- 
-<h1> 제목
-<br> 줄바꿈
-<div> 영역 - 여기선 자동줄바꿈됨
-<form> uri제조기 (상자만들기?)
-<a>링크  <>a쓰고 띄운다음 링크걸면 해당링크로 들어가게됨.
-
-
- -->

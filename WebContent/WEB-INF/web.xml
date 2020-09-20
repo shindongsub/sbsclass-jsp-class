@@ -15,7 +15,22 @@
 	
 	<filter-mapping>
 		<filter-name>MyFilter</filter-name>
-		<url-pattern>/test</url-pattern>
+		<url-pattern>/test/*</url-pattern>
 	</filter-mapping>
+	
+		<filter>
+		<filter-name>
+			loginFilter
+		</filter-name>
+		<filter-class>
+			com.sbs.board.loginFilter
+		</filter-class>	
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/test/*</url-pattern>
+	</filter-mapping>
+
 	
 </web-app>

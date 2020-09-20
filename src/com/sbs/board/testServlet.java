@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
@@ -26,7 +27,14 @@ public class TestServlet extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		PrintWriter pw = response.getWriter();
 		
-		ServletContext application = request.getServletContext();
+		HttpSession session = request.getSession();
+		
+		ServletContext application = request.getServletContext(); //session을 사용하기위해 지운다.
+		
+		if(cmd == null) {
+			
+			response.sendRedirect("test?cmd=showlogin");
+		}
 //		String rst1 = (String)request.getAttribute("key");
 //		String rst2 = (String)application.getAttribute("key");
 //		if(rst1 == null) {
@@ -40,7 +48,7 @@ public class TestServlet extends HttpServlet {
 //			System.out.println(rst2);
 //		}
 		
-		if(cmd.equals("list")) {
+		else if(cmd.equals("list")) {
 			List<Article> articles = dao.getAllArticles();
 			//리퀘스트에 아티클스를 넣어놓은 상태.
 			request.setAttribute("articles", articles); //리퀘스트에 아티클스를 넣어놓은 상태.
@@ -51,7 +59,7 @@ public class TestServlet extends HttpServlet {
 			String url = ARTICLEPATH +"listprint"+EXTENTION;  //forwarding메서드를 만들어 간단하게 만들어놓은 상태
 			forwarding(request, response, url);
 		}
-		if(cmd.equals("add")) {
+		else if(cmd.equals("add")) {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
@@ -136,8 +144,9 @@ public class TestServlet extends HttpServlet {
 			dao.deleteReplyById(id);
 			response.sendRedirect("test?cmd=list");
 		}
-		else if(cmd.equals("login")) {
-			String url = ARTICLEPATH + "login" + EXTENTION;
+		else if(cmd.equals("showlogin")) {
+
+			String url = ARTICLEPATH + "showlogin" + EXTENTION;
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("dologin")) {
@@ -148,16 +157,17 @@ public class TestServlet extends HttpServlet {
 			List<Article> articles = dao.getAllArticles();
 			request.setAttribute("articles", articles);
 			if(member != null) {
-				application.setAttribute("loginMember", member);
-				String url = ARTICLEPATH+"loginCheck"+EXTENTION;
+				session.setAttribute("loginMember", member); //session으로 바꿈 어플리케이션을
+				String url = ARTICLEPATH+"listprint"+EXTENTION;
 				forwarding(request, response, url);
 			}
 //			String url = ARTICLEPATH+"listprint"+EXTENTION;
 //			forwarding(request, response, url);
 		}
 		else if(cmd.equals("logout")) {
-			application.removeAttribute("loginMember");
-			response.sendRedirect("test?cmd=list");
+			session.invalidate();
+//			application.removeAttribute("loginMember"); //session로그아웃으로 바꾸기위해 지움
+			response.sendRedirect("test?cmd=showlogin");
 		}
 	}
 

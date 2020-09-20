@@ -32,8 +32,9 @@ public class TestServlet extends HttpServlet {
 		ServletContext application = request.getServletContext(); //session을 사용하기위해 지운다.
 		
 		if(cmd == null) {
-			
-			response.sendRedirect("test?cmd=showlogin");
+			String url = ARTICLEPATH +"testjspl"+EXTENTION;
+			forwarding(request, response, url);
+//			response.sendRedirect("test?cmd=showlogin");
 		}
 //		String rst1 = (String)request.getAttribute("key");
 //		String rst2 = (String)application.getAttribute("key");
@@ -49,9 +50,9 @@ public class TestServlet extends HttpServlet {
 //		}
 		
 		else if(cmd.equals("list")) {
-			List<Article> articles = dao.getAllArticles();
+//			List<Article> articles = dao.getAllArticles();
 			//리퀘스트에 아티클스를 넣어놓은 상태.
-			request.setAttribute("articles", articles); //리퀘스트에 아티클스를 넣어놓은 상태.
+			request.setAttribute("articles", dao.getAllArticles()); //리퀘스트에 아티클스를 넣어놓은 상태.
 
 			//forwording 해야되는데, 해주는게 리퀘스트 디스펙쳐 requestdispatcher
 //			RequestDispatcher dis = request.getRequestDispatcher("WEB-INF/listprint.jsp");

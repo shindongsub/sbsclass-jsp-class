@@ -170,6 +170,10 @@ public class TestServlet extends HttpServlet {
 //			application.removeAttribute("loginMember"); //session로그아웃으로 바꾸기위해 지움
 			response.sendRedirect("test?cmd=showlogin");
 		}
+		else if(cmd.equals("my")) {
+			MyBatis mb = new MyBatis();
+			mb.getAllArticles();
+		}
 	}
 
 	private void forwarding(HttpServletRequest request, HttpServletResponse response, String url) {

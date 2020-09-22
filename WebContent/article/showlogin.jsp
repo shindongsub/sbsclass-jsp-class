@@ -18,7 +18,6 @@
 <input type="hidden" name = "cmd" placeholder="dologin"><br>
 <hr>
 <input type="submit" value="로그인" />
-<a href="http://localhost:8090/test?cmd=list"> [목록]</a>
 </form>
 </div>
 

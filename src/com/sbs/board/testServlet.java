@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
 	ArticleDao dao = new ArticleDao();
+	MyBatis mb = new MyBatis();
 	final String ARTICLEPATH = "article/";  //forwarding을 위해 변수로 만듬. final을 붙이면 수정못함.
 	final String EXTENTION = ".jsp";
 
@@ -32,9 +33,9 @@ public class TestServlet extends HttpServlet {
 		ServletContext application = request.getServletContext(); //session을 사용하기위해 지운다.
 		
 		if(cmd == null) {
-			String url = ARTICLEPATH +"testjspl"+EXTENTION;
-			forwarding(request, response, url);
-//			response.sendRedirect("test?cmd=showlogin");
+//			String url = ARTICLEPATH +"testjspl"+EXTENTION;
+//			forwarding(request, response, url);
+			response.sendRedirect("test?cmd=showlogin");
 		}
 //		String rst1 = (String)request.getAttribute("key");
 //		String rst2 = (String)application.getAttribute("key");
@@ -50,21 +51,16 @@ public class TestServlet extends HttpServlet {
 //		}
 		
 		else if(cmd.equals("list")) {
-//			List<Article> articles = dao.getAllArticles();
-			//리퀘스트에 아티클스를 넣어놓은 상태.
-			request.setAttribute("articles", dao.getAllArticles()); //리퀘스트에 아티클스를 넣어놓은 상태.
-
-			//forwording 해야되는데, 해주는게 리퀘스트 디스펙쳐 requestdispatcher
-//			RequestDispatcher dis = request.getRequestDispatcher("WEB-INF/listprint.jsp");
-//			dis.forward(request, response); 
-			String url = ARTICLEPATH +"listprint"+EXTENTION;  //forwarding메서드를 만들어 간단하게 만들어놓은 상태
+			int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			request.setAttribute("articles", mb.getAllArticles(currentPage));
+			String url = ARTICLEPATH +"listprint"+EXTENTION; 
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("add")) {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
-			dao.insertArticle(title, body, nickname);
+			mb.insertArticle(title, body, nickname);
 			response.sendRedirect("test?cmd=list");
 		}
 		else if(cmd.equals("addArticle")) {
@@ -72,10 +68,10 @@ public class TestServlet extends HttpServlet {
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("update")) {
-			String id = request.getParameter("id");
+			int id = Integer.parseInt(request.getParameter("id"));
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
-			dao.updateArticle(id, title, body);
+			mb.updateArticle(id, title, body);
 			
 
 			response.sendRedirect("test?cmd=list");
@@ -98,11 +94,11 @@ public class TestServlet extends HttpServlet {
 			response.sendRedirect("test?cmd=list");
 		}
 		else if(cmd.equals("read")) {
-			String id = request.getParameter("id");
-			Article article = dao.readArticle(id);
+			int id = Integer.parseInt(request.getParameter("id"));
+			Article article = mb.readArticle(id);
 			request.setAttribute("article", article);
 			
-			List<Reply> reply = dao.getRepliesById(id);
+			List<Reply> reply = mb.getRepliesById(id);
 			request.setAttribute("reply", reply);
 			
 			String url = ARTICLEPATH+"detailjsp"+EXTENTION;
@@ -112,7 +108,7 @@ public class TestServlet extends HttpServlet {
 			String parentId = request.getParameter("parentId");
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
-			dao.addReply(parentId, body, nickname);
+			mb.addReply(parentId, body, nickname);
 			response.sendRedirect("test?cmd=read&id="+parentId);
 		}
 		else if(cmd.equals("addReply")) {
@@ -151,7 +147,6 @@ public class TestServlet extends HttpServlet {
 			forwarding(request, response, url);
 		}
 		else if(cmd.equals("dologin")) {
-			
 			String id1 = request.getParameter("id");
 			String pw1 = request.getParameter("pw");
 			Member member = dao.loginCheck(id1, pw1);
@@ -162,18 +157,13 @@ public class TestServlet extends HttpServlet {
 				String url = ARTICLEPATH+"listprint"+EXTENTION;
 				forwarding(request, response, url);
 			}
-//			String url = ARTICLEPATH+"listprint"+EXTENTION;
-//			forwarding(request, response, url);
 		}
 		else if(cmd.equals("logout")) {
 			session.invalidate();
 //			application.removeAttribute("loginMember"); //session로그아웃으로 바꾸기위해 지움
 			response.sendRedirect("test?cmd=showlogin");
 		}
-		else if(cmd.equals("my")) {
-			MyBatis mb = new MyBatis();
-			mb.getAllArticles();
-		}
+
 	}
 
 	private void forwarding(HttpServletRequest request, HttpServletResponse response, String url) {

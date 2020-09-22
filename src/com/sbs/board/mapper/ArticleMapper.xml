@@ -7,4 +7,34 @@
   <select id="getAllArticles" resultType="com.sbs.board.Article">
     select * from article
   </select>
+  
+  <select id="getCurrentPage" resultType="com.sbs.board.Article">
+    select * from article limit #{start}, 3
+  </select>
+  
+  <select id="getArticleById" resultType="com.sbs.board.Article">
+    select * from article where id = #{id}
+  </select>
+
+  <select id="getReplyById" resultType="com.sbs.board.Reply">
+    select * from reply where parentId = #{id}
+  </select>
+  
+  <insert id="insertArticle">
+    insert into article set title = #{title}, `body` = #{body}, nickname = #{nickname}, regDate = now(), hit = 155
+  </insert>
+  
+  <insert id="insertArticle2" parameterType="com.sbs.board.Article">
+    insert into article set title = #{title}, `body` = #{body}, nickname = #{nickname}, regDate = now(), hit = 155
+  </insert>
+  
+  <insert id="addReply">
+    insert into reply set parentId = #{parentId}, `body` = #{body}, writer = #{nickname}, regDate = now()
+  </insert>
+  
+  <update id="updateArticle">
+	update article set title = #{title}, `body` = #{body} where id = #{id}
+  </update>
+  
+  
 </mapper>

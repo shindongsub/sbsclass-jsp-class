@@ -25,24 +25,29 @@
 	번호를 누르시면 상세보기가 실행됩니다.
 
 	<form action="test?cmd=delete" method="POST" >
+	<c:forEach var="i" begin="0" end="3">
 		<c:forEach var="article" items = "${ articles }" >
+
 		<div>
 			<input type="checkbox" name="ckb" value="${ article.id }" />
 			<a href="http://localhost:8090/test?cmd=read&id=${ article.id }">
-				번호 : ${ article.id }</a>
+				번호 : ${ article.id }
 				제목 : ${ article.title }
 				내용 : ${ article.body }
 				작성자 : ${ article.nickname }
 				날짜 : ${ article.regDate }
-				조회수 : ${ article.hit }
+				조회수 : ${ article.hit }</a>
 		</div>
 		<hr>
 		</c:forEach>
-		<input type="submit" value="삭제"/> <% //delete로 왜 안넘어가는지 모르겠습니다. %>
+	</c:forEach>
+		<input type="submit" value="삭제"/>
 		<a href="http://localhost:8090/test?cmd=addArticle" >   [글쓰기]</a>
 	</form>
+<c:forEach var="i" begin="0" end="4">
+<a class="-text- orange bold" href="http://localhost:8090/test?cmd=list&currentPage=${i+1}">[ ${i+1} ] </a>
+</c:forEach>
 <hr>
-※글쓰기 필터적용 / 업로드, 상세보기, 삭제, 댓글, 로그인 필터적용 필요
 </body>
 </html>
 

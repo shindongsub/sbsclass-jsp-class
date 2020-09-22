@@ -157,9 +157,9 @@ public class ArticleDao {
 		}
 		return articles;
 	}
-	List<Reply> getRepliesById(String id){
+	List<Reply> getRepliesById(int id2){
 		List<Reply> replies = null;
-		String sql = "select * from reply where parentId = "+id;
+		String sql = "select * from reply where parentId = "+id2;
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
@@ -187,7 +187,7 @@ public class ArticleDao {
 		return replies;
 }
 
-	public void addReply(String parentId, String body, String nickname) {
+	public void insertReply(String parentId, String body, String nickname) {
 		String sql = "insert into reply set parentId = "+parentId+", `body` = '"+body+"', writer = '"+nickname+"', regDate = now()";
 		try {
 			conn = getConnection();

@@ -52,7 +52,7 @@ public class TestServlet extends HttpServlet {
 		
 		else if(cmd.equals("list")) {
 			int currentPage = Integer.parseInt(request.getParameter("currentPage"));
-			request.setAttribute("articles", mb.getAllArticles(currentPage));
+			request.setAttribute("articles", mb.getAllArticle(currentPage));
 			String url = ARTICLEPATH +"listprint"+EXTENTION; 
 			forwarding(request, response, url);
 		}

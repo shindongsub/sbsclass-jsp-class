@@ -25,7 +25,7 @@
 	번호를 누르시면 상세보기가 실행됩니다.
 
 	<form action="test?cmd=delete" method="POST" >
-	<c:forEach var="i" begin="0" end="3">
+
 		<c:forEach var="article" items = "${ articles }" >
 
 		<div>
@@ -33,14 +33,13 @@
 			<a href="http://localhost:8090/test?cmd=read&id=${ article.id }">
 				번호 : ${ article.id }
 				제목 : ${ article.title }
-				내용 : ${ article.body }
+				내용 : ${ article.body }4
 				작성자 : ${ article.nickname }
 				날짜 : ${ article.regDate }
 				조회수 : ${ article.hit }</a>
 		</div>
 		<hr>
 		</c:forEach>
-	</c:forEach>
 		<input type="submit" value="삭제"/>
 		<a href="http://localhost:8090/test?cmd=addArticle" >   [글쓰기]</a>
 	</form>

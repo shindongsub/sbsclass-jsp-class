@@ -8,6 +8,7 @@ import com.sbs.board.Reply;
 
 public interface ArticleMapper {
 	
+	List<Article> getAllArticle();
 	List<Article> getAllArticles();
 	Article getArticleById(int id);
 	List<Reply> getReplyById(int id);

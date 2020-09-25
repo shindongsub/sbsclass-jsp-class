@@ -31,15 +31,15 @@ public class MyBatis {
 		System.out.println(sqlSessionFactory);
 	}
 	
-//	public List<Article> getAllArticles(int currentPage) {
-//		getSession();
-////		SqlSession session = sqlSessionFactory.openSession();
-////		ArticleMapper mapper = session.getMapper(ArticleMapper.class );
-//		List<Article> article =  mapper.getAllArticles();
-//
-//		return article;
-//	}
-	public List<Article> getAllArticles(int currentPage) {
+	public List<Article> getAllArticles() {
+		getSession();
+//		SqlSession session = sqlSessionFactory.openSession();
+//		ArticleMapper mapper = session.getMapper(ArticleMapper.class );
+		List<Article> article =  mapper.getAllArticles();
+
+		return article;
+	}
+	public List<Article> getAllArticle(int currentPage) {
 		getSession();
 		int start = (currentPage - 1)*3;
 		List<Article> article =  mapper.getCurrentPage(start);

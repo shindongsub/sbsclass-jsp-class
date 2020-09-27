@@ -2,8 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List"%>
-<%@ page import="com.sbs.board.Article"%>
-<%@ page import="com.sbs.board.Member"%>
+<%@ page import="com.sbs.board.article.dao.Article"%>
+<%@ page import="com.sbs.board.member.dao.Member"%>
 <!DOCTYPE html>
 <html>
 <head>

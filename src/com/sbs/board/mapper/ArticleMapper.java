@@ -3,8 +3,8 @@ package com.sbs.board.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.sbs.board.Article;
 import com.sbs.board.Reply;
+import com.sbs.board.article.dao.Article;
 
 public interface ArticleMapper {
 	

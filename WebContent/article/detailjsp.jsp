@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.sbs.board.Article"%> 
+<%@ page import="com.sbs.board.article.dao.Article"%> 
 <%@ page import="com.sbs.board.TestServlet"%>
 <%@ page import="com.sbs.board.Reply"%>  
 <%@ page import="java.util.List"%>  

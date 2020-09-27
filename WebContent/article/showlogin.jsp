@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ page import="java.util.List"%>
-<%@ page import="com.sbs.board.Article"%>
+<%@ page import="com.sbs.board.article.dao.Article"%>
 <!DOCTYPE html>
 <html>
 <head>

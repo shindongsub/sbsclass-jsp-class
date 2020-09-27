@@ -13,10 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.board.article.dao.Article;
+import com.sbs.board.article.dao.ArticleDao;
+import com.sbs.board.article.dao.ArticleDao2;
+import com.sbs.board.member.dao.Member;
+
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
-	ArticleDao dao = new ArticleDao();
-	MyBatis mb = new MyBatis();
+	ArticleDao2 dao = new ArticleDao2();
+	ArticleDao mb = new ArticleDao();
 	final String ARTICLEPATH = "article/";  //forwarding을 위해 변수로 만듬. final을 붙이면 수정못함.
 	final String EXTENTION = ".jsp";
 

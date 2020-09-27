@@ -1,11 +1,16 @@
 package com.sbs.board;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.sbs.board.article.controller.ArticleController;
+import com.sbs.board.member.controller.MemberController;
 
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
@@ -36,6 +41,16 @@ public class DispatcherServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+	}
+	void forwarding(HttpServletRequest request, HttpServletResponse response, String path) {
+		try {
+			RequestDispatcher req = request.getRequestDispatcher("/article/listprint.jsp");
+			req.forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

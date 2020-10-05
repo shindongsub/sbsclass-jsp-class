@@ -9,16 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.google.protobuf.Service;
 import com.sbs.board.article.controller.ArticleController;
 import com.sbs.board.member.controller.MemberController;
 
-@WebServlet("/")
-public class DispatcherServlet extends HttpServlet {
-
+@WebServlet("/") //언어테이션
+public class DispatcherServlet2 extends HttpServlet {
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		ApplicationContext ac = new ClassPathXmlApplicationContext("com/sbs/config/spring-config.xml");
 		String uri = request.getRequestURI();
+		
 		String [] uris = uri.split("/");
+		
 		if(uris.length != 3) {
 			response.getWriter().println("올바른 요청이 아닙니다.");
 			return;
@@ -28,11 +36,13 @@ public class DispatcherServlet extends HttpServlet {
 		Controller controller = null;
 		
 		if(module.equals("article")) {
-			controller = new ArticleController(request, response, action);
+			controller = ac.getBean(ArticleController.class);
+//			controller = new ArticleController(request, response, action);
+			
 		}else if(module.equals("member")) {
 			controller = new MemberController(request, response, action);
 		}
-		String rst = controller.doActon();
+		String rst = controller.doActon(request, response, action);
 		if(rst != null) {
 			request.getRequestDispatcher(rst).forward(request, response);
 		}

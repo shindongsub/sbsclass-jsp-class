@@ -8,10 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.sbs.board.Reply;
 import com.sbs.board.member.dao.Member;
 
-public class ArticleDao2 {
+@Component
+public class ArticleDao2 implements Dao{
 	Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
@@ -96,190 +99,190 @@ public class ArticleDao2 {
 		}
 		return articles;
 	}
-	public void insertArticle(String title, String body, String nickname) {
-		String sql = "insert into article set title = '"+title+"', `body` = '"+body+"', nickname = '"+nickname+"', regDate = now(), hit = 155";
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-	}
-	public void updateArticle(String id, String title, String body) {
-		String sql = "update article set title = '"+title+"', `body` ='"+body+"' where id = "+id;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-	}
-	public void deleteArticle(String[] ids) {
-		conn = getConnection();
-		try {
-			stmt = conn.createStatement();
-			for (int i=0; i<ids.length;i++) {
-				String sql = "delete from article where id = "+ids[i];
-				stmt.executeUpdate(sql);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-	}
-	public Article readArticle(String id) {
-		Article articles = null;
-		String sql = "select * from article where id ="+id;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next()) {
-				articles = new Article();
-				articles.setId(rs.getInt("id"));
-				articles.setTitle(rs.getString("title"));
-				articles.setBody(rs.getString("body"));
-				articles.setRegDate(rs.getString("regDate"));
-				articles.setNickname(rs.getString("nickname"));
-				articles.setHit(rs.getInt("hit"));
-
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return articles;
-	}
-	List<Reply> getRepliesById(int id2){
-		List<Reply> replies = null;
-		String sql = "select * from reply where parentId = "+id2;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			
-			replies = new ArrayList<>();
-			
-			while(rs.next()) {
-				int rid = rs.getInt("id");
-				String parentId = rs.getString("parentId");
-				String body = rs.getString("body");
-				String writer = rs.getString("writer");
-				String regDate = rs.getString("regDate");
-				
-				Reply reply = new Reply(rid, parentId, body, writer, regDate);
-				replies.add(reply);
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return replies;
-}
-
-	public void insertReply(String parentId, String body, String nickname) {
-		String sql = "insert into reply set parentId = "+parentId+", `body` = '"+body+"', writer = '"+nickname+"', regDate = now()";
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-	}
-
-	public Reply readReply(String id) {
-		Reply reply = null;
-		String sql = "select * from reply where id ="+id;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if (rs.next()) {
-				reply = new Reply();
-				reply.setId(rs.getInt("id"));
-				reply.setBody(rs.getString("body"));
-				reply.setWriter(rs.getString("writer"));
-				reply.setRegDate(rs.getString("regDate"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return reply;
-	}
-
-	public Reply updateReply(String id, String body, String writer) {
-		String sql = "update reply set `body` = '"+body+"', writer ='"+writer+"' where id = "+id;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return null;
-	}
-	public void deleteReplyById(String id) {
-		String sql = "delete from reply where id = "+id;
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-	}
-	public Member loginCheck(String id1, String pw1) {
-		Member member = null;
-		String sql = "select * from `member` where loginId = '"+id1+"' and loginPw = '"+pw1+"'";
-		System.out.println(sql);
-		
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			if(rs.next()) {
-				int id = rs.getInt("id");
-				String loginId = rs.getString("loginId");
-				String loginPw = rs.getString("loginPw");
-				String nickname = rs.getString("nickname");
-				String regDate = rs.getString("regDate");
-				
-				member = new Member();
-				member.setId(id);
-				member.setLoginId(loginId);
-				member.setLoginPw(loginPw);
-				member.setNickname(nickname);
-				member.setRegDate(regDate);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return member;
-	}
+//	public void insertArticle(String title, String body, String nickname) {
+//		String sql = "insert into article set title = '"+title+"', `body` = '"+body+"', nickname = '"+nickname+"', regDate = now(), hit = 155";
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//	}
+//	public void updateArticle(String id, String title, String body) {
+//		String sql = "update article set title = '"+title+"', `body` ='"+body+"' where id = "+id;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//	}
+//	public void deleteArticle(String[] ids) {
+//		conn = getConnection();
+//		try {
+//			stmt = conn.createStatement();
+//			for (int i=0; i<ids.length;i++) {
+//				String sql = "delete from article where id = "+ids[i];
+//				stmt.executeUpdate(sql);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//	}
+//	public Article readArticle(String id) {
+//		Article articles = null;
+//		String sql = "select * from article where id ="+id;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql);
+//			if (rs.next()) {
+//				articles = new Article();
+//				articles.setId(rs.getInt("id"));
+//				articles.setTitle(rs.getString("title"));
+//				articles.setBody(rs.getString("body"));
+//				articles.setRegDate(rs.getString("regDate"));
+//				articles.setNickname(rs.getString("nickname"));
+//				articles.setHit(rs.getInt("hit"));
+//
+//			}
+//			
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//		return articles;
+//	}
+//	List<Reply> getRepliesById(int id2){
+//		List<Reply> replies = null;
+//		String sql = "select * from reply where parentId = "+id2;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql);
+//			
+//			replies = new ArrayList<>();
+//			
+//			while(rs.next()) {
+//				int rid = rs.getInt("id");
+//				String parentId = rs.getString("parentId");
+//				String body = rs.getString("body");
+//				String writer = rs.getString("writer");
+//				String regDate = rs.getString("regDate");
+//				
+//				Reply reply = new Reply(rid, parentId, body, writer, regDate);
+//				replies.add(reply);
+//			}
+//			
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//		return replies;
+//}
+//
+//	public void insertReply(String parentId, String body, String nickname) {
+//		String sql = "insert into reply set parentId = "+parentId+", `body` = '"+body+"', writer = '"+nickname+"', regDate = now()";
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//	}
+//
+//	public Reply readReply(String id) {
+//		Reply reply = null;
+//		String sql = "select * from reply where id ="+id;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql);
+//			if (rs.next()) {
+//				reply = new Reply();
+//				reply.setId(rs.getInt("id"));
+//				reply.setBody(rs.getString("body"));
+//				reply.setWriter(rs.getString("writer"));
+//				reply.setRegDate(rs.getString("regDate"));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//		return reply;
+//	}
+//
+//	public Reply updateReply(String id, String body, String writer) {
+//		String sql = "update reply set `body` = '"+body+"', writer ='"+writer+"' where id = "+id;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//		return null;
+//	}
+//	public void deleteReplyById(String id) {
+//		String sql = "delete from reply where id = "+id;
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//	}
+//	public Member loginCheck(String id1, String pw1) {
+//		Member member = null;
+//		String sql = "select * from `member` where loginId = '"+id1+"' and loginPw = '"+pw1+"'";
+//		System.out.println(sql);
+//		
+//		try {
+//			conn = getConnection();
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql);
+//			if(rs.next()) {
+//				int id = rs.getInt("id");
+//				String loginId = rs.getString("loginId");
+//				String loginPw = rs.getString("loginPw");
+//				String nickname = rs.getString("nickname");
+//				String regDate = rs.getString("regDate");
+//				
+//				member = new Member();
+//				member.setId(id);
+//				member.setLoginId(loginId);
+//				member.setLoginPw(loginPw);
+//				member.setNickname(nickname);
+//				member.setRegDate(regDate);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close();
+//		}
+//		return member;
+//	}
 
 		
 

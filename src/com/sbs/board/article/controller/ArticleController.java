@@ -26,7 +26,7 @@ public class ArticleController extends Controller{
 //			service.setDao(dao);
 						
 			request.setAttribute("articles", service.getAllArticles());
-			return "/article/listprint.jsp";
+			return "list";
 		}else {
 			response.getWriter().println("잘못된 요청입니다!!");
 			return null;

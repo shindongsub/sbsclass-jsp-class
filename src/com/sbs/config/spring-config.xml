@@ -8,8 +8,36 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<context:annotation-config>	</context:annotation-config>
-<context:component-scan base-package="com.sbs.board" />
+	<context:annotation-config>
+	</context:annotation-config>
+	<context:component-scan
+		base-package="com.sbs.board" />
+
+
+	<!-- no 'id' required, HandlerMapping beans are automatically detected by 
+		the DispatcherServlet -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+				/article/*=articleController
+
+			</value>
+		</property>
+	</bean>
+
+	<bean id="articleController"
+		class="com.sbs.board.article.controller.ArticleController" />
+
+
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 
 
 </beans>

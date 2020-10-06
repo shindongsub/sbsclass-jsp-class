@@ -21,7 +21,7 @@ public class MemberController extends Controller{
 	public String doActon() throws IOException {
 		if(action.equals("list.do")) {
 			request.setAttribute("article", service.getAllMembers());
-			return "/article/listprint.jsp";
+			return "/WEB-INF/list.jsp";
 		}else {
 			response.getWriter().println("잘못된 요청입니다!!");
 			return null;

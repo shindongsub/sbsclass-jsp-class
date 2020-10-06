@@ -16,7 +16,7 @@ import com.google.protobuf.Service;
 import com.sbs.board.article.controller.ArticleController;
 import com.sbs.board.member.controller.MemberController;
 
-@WebServlet("/") //언어테이션
+@WebServlet("/ddf") //언어테이션
 public class DispatcherServlet2 extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -54,7 +54,7 @@ public class DispatcherServlet2 extends HttpServlet {
 	}
 	void forwarding(HttpServletRequest request, HttpServletResponse response, String path) {
 		try {
-			RequestDispatcher req = request.getRequestDispatcher("/article/listprint.jsp");
+			RequestDispatcher req = request.getRequestDispatcher("/WEB-INF/list.jsp");
 			req.forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
